@@ -1,0 +1,80 @@
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
+
+
+android {
+    compileSdk 32
+    namespace 'com.samyak2403'
+    defaultConfig {
+        minSdk 21
+        targetSdk 32
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+
+        multipleVariants {
+            withSourcesJar()
+            withJavadocJar()
+            allVariants()
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.annotation:annotation:1.4.0'
+
+}
+
+afterEvaluate {
+
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.samyak2403'
+                artifactId = 'CircleImageView'
+                version = 'android.defaultConfig.versionName'
+
+
+                pom {
+
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'Arrowwould'
+                            name = 'Arrowwould'
+                            email = 'arrowwouldpro@gmail.com'
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+}
